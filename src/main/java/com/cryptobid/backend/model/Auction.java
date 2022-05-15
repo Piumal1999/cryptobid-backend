@@ -8,8 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Temporal;import javax.persistence.Id;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 @Entity
 public class Auction {
@@ -72,5 +72,4 @@ public class Auction {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 }
