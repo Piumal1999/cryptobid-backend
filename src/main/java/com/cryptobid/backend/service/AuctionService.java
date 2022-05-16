@@ -5,6 +5,7 @@ import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.model.Bid;
 import com.cryptobid.backend.repository.AuctionRepository;
 import com.cryptobid.backend.repository.BidRepository;
+import com.cryptobid.backend.repository.UserRepository;
 import com.cryptobid.backend.util.AuctionStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,12 @@ public class AuctionService {
 	private final static Logger log = LoggerFactory.getLogger(AuctionService.class);
 	private final AuctionRepository auctionRepository;
 	private final BidRepository bidRepository;
+	private final UserRepository userRepository;
 
-	public AuctionService(AuctionRepository auctionRepository, BidRepository bidRepository) {
+	public AuctionService(AuctionRepository auctionRepository, BidRepository bidRepository, UserRepository userRepository) {
 		this.auctionRepository = auctionRepository;
 		this.bidRepository = bidRepository;
+		this.userRepository = userRepository;
 	}
 
 	/**
@@ -50,6 +53,25 @@ public class AuctionService {
 			throw new ResourceNotFoundException(msg);
 		}
 		return auction.get();
+	}
+
+
+	/**
+	 * Create an {@link Auction}
+	 *
+	 * @param auction which contains the details of {@link Auction} object
+	 * @param userId which is the id of {@code User} object
+	 * @return the created {@link Auction} object
+	 */
+	public Auction startAuction(Auction auction, int userId) {
+		Auction createdAuction = new Auction();
+		createdAuction.setInitialValue(auction.getInitialValue());
+		createdAuction.setStartedBy(userRepository.getById(userId));
+		createdAuction.setStartTime(new Date());
+		createdAuction.setCryptocurrency(auction.getCryptocurrency());
+		createdAuction.setEndTime(auction.getEndTime());
+		createdAuction.setStatus(AuctionStatus.COMPLETED);
+		return auctionRepository.save(createdAuction);
 	}
 
 	/**
