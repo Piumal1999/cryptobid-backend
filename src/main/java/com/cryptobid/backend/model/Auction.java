@@ -1,8 +1,6 @@
 package com.cryptobid.backend.model;
 
-import com.cryptobid.backend.util.UserType;
-
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,10 +27,10 @@ public class Auction {
 	private Date endTime;
 
 	@Column(nullable = false)
-	private int initialValue;
+	private float initialValue;
 
-	@Column
-	private String status;
+	@Column(nullable = false)
+	private AuctionStatus status;
 
 	public int getId() {
 		return id;
