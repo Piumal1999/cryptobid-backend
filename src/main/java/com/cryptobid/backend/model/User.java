@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,13 +40,13 @@ public class User {
 	private UserType type;
 
 	@OneToMany(mappedBy = "startedBy")
-	private List<Auction> startedAuctions;
+	private List<Auction> startedAuctions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "wonBy")
-	private List<Auction> wonAuctions;
+	private List<Auction> wonAuctions = new ArrayList<>();
 
-	@OneToMany
-	private List<Bid> bids;
+	@OneToMany(mappedBy = "bidBy")
+	private List<Bid> bids = new ArrayList<>();
 
 	public int getId() {
 		return id;
