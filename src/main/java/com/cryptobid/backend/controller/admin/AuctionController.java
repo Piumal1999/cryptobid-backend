@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@RestController("AdminAuctionController")
 @RequestMapping("/api/admin/auctions")
 public class AuctionController {
 	private final AuctionService auctionService;
