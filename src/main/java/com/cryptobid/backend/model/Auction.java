@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -29,6 +30,9 @@ public class Auction {
 
 	@Column(nullable = false)
 	private AuctionStatus status;
+
+	@ManyToOne
+	private Cryptocurrency cryptocurrency;
 
 	public int getId() {
 		return id;
@@ -68,5 +72,13 @@ public class Auction {
 
 	public void setStatus(AuctionStatus status) {
 		this.status = status;
+	}
+
+	public Cryptocurrency getCryptocurrency() {
+		return cryptocurrency;
+	}
+
+	public void setCryptocurrency(Cryptocurrency cryptocurrency) {
+		this.cryptocurrency = cryptocurrency;
 	}
 }

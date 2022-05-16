@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Cryptocurrency {
@@ -21,6 +23,9 @@ public class Cryptocurrency {
 
 	@Column(nullable = false)
 	private int rank;
+
+	@OneToMany(mappedBy = "cryptocurrency")
+	private List<Auction> auctions;
 
 	public int getId() {
 		return id;
@@ -52,5 +57,13 @@ public class Cryptocurrency {
 
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	public List<Auction> getAuctions() {
+		return auctions;
+	}
+
+	public void setAuctions(List<Auction> auctions) {
+		this.auctions = auctions;
 	}
 }
