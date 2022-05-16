@@ -1,5 +1,6 @@
 package com.cryptobid.backend.service;
 
+import com.cryptobid.backend.exceptions.BadRequestException;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.model.Bid;
@@ -100,7 +101,7 @@ public class AuctionService {
 	/**
 	 * Get the bids of logged in {@code User} for an {@link Auction}
 	 *
-	 * @param id which is the id of the filtering {@link Auction}
+	 * @param id     which is the id of the filtering {@link Auction}
 	 * @param userId which is the id of the logged in user
 	 * @return the {@link List} of {@link Bid} objects
 	 * @throws ResourceNotFoundException if the filtering {@link Auction} doesn't exist
@@ -112,6 +113,36 @@ public class AuctionService {
 			throw new ResourceNotFoundException(msg);
 		}
 		return bidRepository.getBidsByAuctionIdAndBidBy_Id(id, userId);
+	}
+
+	/**
+	 * Delete a bid of logged in {@code User} for an {@link Auction}
+	 *
+	 * @param auctionId     which is the id of the filtering {@link Auction}
+	 * @param bidId     which is the id of the filtering {@link Bid}
+	 * @param userId which is the id of the logged in user
+	 * @throws ResourceNotFoundException if the filtering {@link Bid} doesn't exist
+	 * @throws BadRequestException if the {@code auctionId} is Invalid
+	 * @throws BadRequestException if the {@code userId} is Invalid
+	 */
+	public void cancelBidById(int auctionId, int bidId, int userId) throws ResourceNotFoundException, BadRequestException {
+		Optional<Bid> bid = bidRepository.findById(bidId);
+		if (bid.isEmpty()) {
+			String msg = "Error, Bid by id: " + bidId + " doesn't exist.";
+			log.error(msg);
+			throw new ResourceNotFoundException(msg);
+		}
+		if (bid.get().getAuction().getId() != auctionId) {
+			String msg = "Error, Invalid auction id";
+			log.error(msg);
+			throw new BadRequestException(msg);
+		}
+		if (bid.get().getBidBy().getId() != userId) {
+			String msg = "Error, Invalid user id";
+			log.error(msg);
+			throw new BadRequestException(msg);
+		}
+		bidRepository.deleteById(bidId);
 	}
 
 }

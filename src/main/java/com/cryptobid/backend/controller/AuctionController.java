@@ -1,5 +1,6 @@
 package com.cryptobid.backend.controller;
 
+import com.cryptobid.backend.exceptions.BadRequestException;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.model.Bid;
@@ -7,6 +8,7 @@ import com.cryptobid.backend.model.User;
 import com.cryptobid.backend.service.AuctionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,5 +43,12 @@ public class AuctionController {
 	public List<Bid> getMyBidsByAuctionId(@PathVariable int id, @AuthenticationPrincipal User user)
 			throws ResourceNotFoundException {
 		return auctionService.getMyBidsByAuctionId(id, user.getId());
+	}
+
+	@DeleteMapping("/{auctionId}/bids/{bidId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void cancelBidById(@PathVariable int auctionId, @PathVariable int bidId, @AuthenticationPrincipal User user)
+			throws ResourceNotFoundException, BadRequestException {
+		auctionService.cancelBidById(auctionId, bidId, user.getId());
 	}
 }
