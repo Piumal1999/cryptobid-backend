@@ -44,6 +44,9 @@ public class User {
 	@OneToMany(mappedBy = "wonBy")
 	private List<Auction> wonAuctions;
 
+	@OneToMany
+	private List<Bid> bids;
+
 	public int getId() {
 		return id;
 	}
@@ -114,5 +117,13 @@ public class User {
 
 	public void setWonAuctions(List<Auction> wonAuctions) {
 		this.wonAuctions = wonAuctions;
+	}
+
+	public List<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
 	}
 }
