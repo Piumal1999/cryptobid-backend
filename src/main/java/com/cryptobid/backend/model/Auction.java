@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Auction {
@@ -39,6 +41,9 @@ public class Auction {
 
 	@ManyToOne
 	private User wonBy;
+
+	@OneToMany
+	private List<Bid> bids;
 
 	public int getId() {
 		return id;
@@ -102,5 +107,13 @@ public class Auction {
 
 	public void setWonBy(User wonBy) {
 		this.wonBy = wonBy;
+	}
+
+	public List<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
 	}
 }

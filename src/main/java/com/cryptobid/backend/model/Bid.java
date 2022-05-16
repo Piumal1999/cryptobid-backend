@@ -3,6 +3,7 @@ package com.cryptobid.backend.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
@@ -20,6 +21,12 @@ public class Bid {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date time;
+
+	@ManyToOne(optional = false)
+	private User bidBy;
+
+	@ManyToOne(optional = false)
+	private Auction auction;
 
 	public int getId() {
 		return id;
@@ -44,4 +51,21 @@ public class Bid {
 	public void setTime(Date time) {
 		this.time = time;
 	}
+
+	public User getBidBy() {
+		return bidBy;
+	}
+
+	public void setBidBy(User bidBy) {
+		this.bidBy = bidBy;
+	}
+
+	public Auction getAuction() {
+		return auction;
+	}
+
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
+
 }
