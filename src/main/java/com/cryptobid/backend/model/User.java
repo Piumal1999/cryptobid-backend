@@ -8,6 +8,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class User {
@@ -35,6 +37,12 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 8, nullable = false)
 	private UserType type;
+
+	@OneToMany(mappedBy = "startedBy")
+	private List<Auction> startedAuctions;
+
+	@OneToMany(mappedBy = "wonBy")
+	private List<Auction> wonAuctions;
 
 	public int getId() {
 		return id;
@@ -90,5 +98,21 @@ public class User {
 
 	public void setType(UserType type) {
 		this.type = type;
+	}
+
+	public List<Auction> getStartedAuctions() {
+		return startedAuctions;
+	}
+
+	public void setStartedAuctions(List<Auction> startedAuctions) {
+		this.startedAuctions = startedAuctions;
+	}
+
+	public List<Auction> getWonAuctions() {
+		return wonAuctions;
+	}
+
+	public void setWonAuctions(List<Auction> wonAuctions) {
+		this.wonAuctions = wonAuctions;
 	}
 }
