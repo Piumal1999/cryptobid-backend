@@ -1,5 +1,7 @@
 package com.cryptobid.backend.model;
 
+import com.cryptobid.backend.util.AuctionStatus;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +45,8 @@ public class Auction {
 	@ManyToOne
 	private User wonBy;
 
-	@OneToMany
-	private List<Bid> bids;
+	@OneToMany(mappedBy = "bidBy")
+	private List<Bid> bids  = new ArrayList<>();
 
 	public int getId() {
 		return id;

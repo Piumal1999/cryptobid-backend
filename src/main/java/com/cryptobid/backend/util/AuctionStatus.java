@@ -1,4 +1,4 @@
-package com.cryptobid.backend.model;
+package com.cryptobid.backend.util;
 
 public enum AuctionStatus {
     PENDING,
