@@ -61,7 +61,7 @@ public class AuctionService {
 	 * Create an {@link Auction}
 	 *
 	 * @param auction which contains the details of {@link Auction} object
-	 * @param userId which is the id of {@code User} object
+	 * @param userId  which is the id of {@code User} object
 	 * @return the created {@link Auction} object
 	 */
 	public Auction startAuction(Auction auction, int userId) {
@@ -140,12 +140,12 @@ public class AuctionService {
 	/**
 	 * Delete a bid of logged in {@code User} for an {@link Auction}
 	 *
-	 * @param auctionId     which is the id of the filtering {@link Auction}
+	 * @param auctionId which is the id of the filtering {@link Auction}
 	 * @param bidId     which is the id of the filtering {@link Bid}
-	 * @param userId which is the id of the logged in user
+	 * @param userId    which is the id of the logged in user
 	 * @throws ResourceNotFoundException if the filtering {@link Bid} doesn't exist
-	 * @throws BadRequestException if the {@code auctionId} is Invalid
-	 * @throws BadRequestException if the {@code userId} is Invalid
+	 * @throws BadRequestException       if the {@code auctionId} is Invalid
+	 * @throws BadRequestException       if the {@code userId} is Invalid
 	 */
 	public void cancelBidById(int auctionId, int bidId, int userId) throws ResourceNotFoundException, BadRequestException {
 		Optional<Bid> bid = bidRepository.findById(bidId);
@@ -165,6 +165,23 @@ public class AuctionService {
 			throw new BadRequestException(msg);
 		}
 		bidRepository.deleteById(bidId);
+	}
+
+	/**
+	 * Create a {@link Bid}
+	 *
+	 * @param bid       which contains the details of {@link Bid} object
+	 * @param auctionId which is the id of {@code Auction} object
+	 * @param userId    which is the id of {@code User} object
+	 * @return the created {@link Bid} object
+	 */
+	public Bid createBid(int auctionId, Bid bid, int userId) {
+		Bid createdBid = new Bid();
+		createdBid.setAmount(bid.getAmount());
+		createdBid.setTime(new Date());
+		createdBid.setBidBy(userRepository.getById(userId));
+		createdBid.setAuction(auctionRepository.getById(auctionId));
+		return bidRepository.save(createdBid);
 	}
 
 }
