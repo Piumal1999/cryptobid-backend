@@ -1,5 +1,6 @@
 package com.cryptobid.backend.controller;
 
+import com.cryptobid.backend.exceptions.BadRequestException;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.model.Bid;
@@ -47,7 +48,7 @@ public class AuctionController {
 	@DeleteMapping("/{auctionId}/bids/{bidId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cancelBidById(@PathVariable int auctionId, @PathVariable int bidId, @AuthenticationPrincipal User user)
-			throws ResourceNotFoundException {
+			throws ResourceNotFoundException, BadRequestException {
 		auctionService.cancelBidById(auctionId, bidId, user.getId());
 	}
 }
