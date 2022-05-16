@@ -31,8 +31,14 @@ public class Auction {
 	@Column(nullable = false)
 	private AuctionStatus status;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Cryptocurrency cryptocurrency;
+
+	@ManyToOne(optional = false)
+	private User startedBy;
+
+	@ManyToOne
+	private User wonBy;
 
 	public int getId() {
 		return id;
@@ -80,5 +86,21 @@ public class Auction {
 
 	public void setCryptocurrency(Cryptocurrency cryptocurrency) {
 		this.cryptocurrency = cryptocurrency;
+	}
+
+	public User getStartedBy() {
+		return startedBy;
+	}
+
+	public void setStartedBy(User startedBy) {
+		this.startedBy = startedBy;
+	}
+
+	public User getWonBy() {
+		return wonBy;
+	}
+
+	public void setWonBy(User wonBy) {
+		this.wonBy = wonBy;
 	}
 }
