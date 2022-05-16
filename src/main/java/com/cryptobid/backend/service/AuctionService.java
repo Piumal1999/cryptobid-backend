@@ -1,8 +1,8 @@
 package com.cryptobid.backend.service;
 
-import com.cryptobid.backend.controller.AuctionController;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.Auction;
+import com.cryptobid.backend.model.Bid;
 import com.cryptobid.backend.repository.AuctionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class AuctionService {
 
-	private final static Logger log = LoggerFactory.getLogger(AuctionController.class);
+	private final static Logger log = LoggerFactory.getLogger(AuctionService.class);
 	private final AuctionRepository auctionRepository;
 
 	public AuctionService(AuctionRepository auctionRepository) {
@@ -45,6 +45,24 @@ public class AuctionService {
 			log.error(msg);
 			throw new ResourceNotFoundException(msg);
 		}
-		return auctionRepository.getById(id);
+		return auction.get();
 	}
+	/**
+	 * Retrieves all the {@link Bid} objects filtered from {@link Auction}
+	 *
+	 * @param id which is the id of the filtering {@link Auction}
+	 * @return {@link List} of {@link Bid} objects
+	 *
+	 * @throws ResourceNotFoundException if the filtering {@link Auction} doesn't exist
+	 */
+	public List<Bid> getBidsByAuctionId(int id) throws ResourceNotFoundException {
+		Optional<Auction> auction = auctionRepository.findById(id);
+		if (auction.isEmpty()) {
+			String msg = "Error, Auction by id: " + id + " doesn't exist.";
+			log.error(msg);
+			throw new ResourceNotFoundException(msg);
+		}
+		return auction.get().getBids();
+	}
+
 }

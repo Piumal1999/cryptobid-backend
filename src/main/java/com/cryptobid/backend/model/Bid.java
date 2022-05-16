@@ -2,6 +2,7 @@ package com.cryptobid.backend.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -12,6 +13,7 @@ import java.util.Date;
 public class Bid {
 
 	@Id
+	@GeneratedValue
 	@Column(nullable = false)
 	private int id;
 
@@ -67,5 +69,4 @@ public class Bid {
 	public void setAuction(Auction auction) {
 		this.auction = auction;
 	}
-
 }
