@@ -1,14 +1,12 @@
 package com.cryptobid.backend.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 @Entity
 public class Auction {
@@ -56,19 +54,19 @@ public class Auction {
 		this.endTime = endTime;
 	}
 
-	public int getInitialValue() {
+	public float getInitialValue() {
 		return initialValue;
 	}
 
-	public void setInitialValue(int initialValue) {
+	public void setInitialValue(float initialValue) {
 		this.initialValue = initialValue;
 	}
 
-	public String getStatus() {
+	public AuctionStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(AuctionStatus status) {
 		this.status = status;
 	}
 }
