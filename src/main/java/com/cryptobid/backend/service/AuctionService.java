@@ -97,4 +97,21 @@ public class AuctionService {
 		return auction.get();
 	}
 
+	/**
+	 * Get the bids of logged in {@code User} for an {@link Auction}
+	 *
+	 * @param id which is the id of the filtering {@link Auction}
+	 * @param userId which is the id of the logged in user
+	 * @return the {@link List} of {@link Bid} objects
+	 * @throws ResourceNotFoundException if the filtering {@link Auction} doesn't exist
+	 */
+	public List<Bid> getMyBidsByAuctionId(int id, int userId) throws ResourceNotFoundException {
+		if (!auctionRepository.existsById(id)) {
+			String msg = "Error, Auction by id: " + id + " doesn't exist.";
+			log.error(msg);
+			throw new ResourceNotFoundException(msg);
+		}
+		return bidRepository.getBidsByAuctionIdAndBidBy_Id(id, userId);
+	}
+
 }
