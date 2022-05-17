@@ -23,11 +23,16 @@ public class AuctionService {
 	private final AuctionRepository auctionRepository;
 	private final BidRepository bidRepository;
 	private final UserRepository userRepository;
+	private final CoinGeckoService coinGeckoService;
 
-	public AuctionService(AuctionRepository auctionRepository, BidRepository bidRepository, UserRepository userRepository) {
+	public AuctionService(AuctionRepository auctionRepository,
+						  BidRepository bidRepository,
+						  UserRepository userRepository,
+						  CoinGeckoService coinGeckoService) {
 		this.auctionRepository = auctionRepository;
 		this.bidRepository = bidRepository;
 		this.userRepository = userRepository;
+		this.coinGeckoService = coinGeckoService;
 	}
 
 	/**
@@ -66,12 +71,12 @@ public class AuctionService {
 	 */
 	public Auction startAuction(Auction auction, int userId) {
 		Auction createdAuction = new Auction();
-		createdAuction.setInitialValue(auction.getInitialValue());
 		createdAuction.setStartedBy(userRepository.getById(userId));
 		createdAuction.setStartTime(new Date());
 		createdAuction.setCryptocurrency(auction.getCryptocurrency());
 		createdAuction.setEndTime(auction.getEndTime());
 		createdAuction.setStatus(AuctionStatus.COMPLETED);
+		createdAuction.setInitialValue(coinGeckoService.getCryptoValue(auction.getCryptocurrency().getName()));
 		return auctionRepository.save(createdAuction);
 	}
 
@@ -147,7 +152,8 @@ public class AuctionService {
 	 * @throws BadRequestException       if the {@code auctionId} is Invalid
 	 * @throws BadRequestException       if the {@code userId} is Invalid
 	 */
-	public void cancelBidById(int auctionId, int bidId, int userId) throws ResourceNotFoundException, BadRequestException {
+	public void cancelBidById(int auctionId, int bidId, int userId)
+			throws ResourceNotFoundException, BadRequestException {
 		Optional<Bid> bid = bidRepository.findById(bidId);
 		if (bid.isEmpty()) {
 			String msg = "Error, Bid by id: " + bidId + " doesn't exist.";
