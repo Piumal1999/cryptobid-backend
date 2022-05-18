@@ -8,6 +8,7 @@ import com.cryptobid.backend.model.User;
 import com.cryptobid.backend.service.AuctionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,21 +43,21 @@ public class AuctionController {
 
 	@GetMapping("/{id}/bids")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Bid> getMyBidsByAuctionId(@PathVariable int id, @AuthenticationPrincipal User user)
+	public List<Bid> getMyBidsByAuctionId(@PathVariable int id, @CookieValue int userId)
 			throws ResourceNotFoundException {
-		return auctionService.getMyBidsByAuctionId(id, user.getId());
+		return auctionService.getMyBidsByAuctionId(id, userId);
 	}
 
 	@DeleteMapping("/{auctionId}/bids/{bidId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelBidById(@PathVariable int auctionId, @PathVariable int bidId, @AuthenticationPrincipal User user)
+	public void cancelBidById(@PathVariable int auctionId, @PathVariable int bidId, @CookieValue int userId)
 			throws ResourceNotFoundException, BadRequestException {
-		auctionService.cancelBidById(auctionId, bidId, user.getId());
+		auctionService.cancelBidById(auctionId, bidId, userId);
 	}
 
 	@PostMapping("/{id}/bids")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Bid createBid(@PathVariable int id, @RequestBody Bid bid, @AuthenticationPrincipal User user) {
-		return auctionService.createBid(id, bid, user.getId());
+	public Bid createBid(@PathVariable int id, @RequestBody Bid bid, @CookieValue int userId) {
+		return auctionService.createBid(id, bid, userId);
 	}
 }

@@ -5,6 +5,7 @@ import com.cryptobid.backend.model.User;
 import com.cryptobid.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,7 +22,7 @@ public class IntrospectionController {
 
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public User getUserById(@AuthenticationPrincipal User user) throws ResourceNotFoundException {
-		return userService.getUserById(user.getId());
+	public User getUserById(@CookieValue int userId) throws ResourceNotFoundException {
+		return userService.getUserById(userId);
 	}
 }
