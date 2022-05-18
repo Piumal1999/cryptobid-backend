@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties("startedAuctions, wonAuctions")
+@JsonIgnoreProperties({"startedAuctions", "wonAuctions"})
 public class User {
 
 	@Id
@@ -22,7 +22,7 @@ public class User {
 	@Column(nullable = false)
 	private int id;
 
-	@Column(nullable = false,unique = true)
+	@Column(nullable = false, unique = true)
 	private String username;
 
 	@Column(nullable = false)
@@ -49,6 +49,24 @@ public class User {
 
 	@OneToMany(mappedBy = "bidBy")
 	private List<Bid> bids = new ArrayList<>();
+
+	public User() {
+
+	}
+
+	public User(String username,
+				String password,
+				String firstName,
+				String lastName,
+				float totalBalance,
+				UserType type) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.totalBalance = totalBalance;
+		this.type = type;
+	}
 
 	public int getId() {
 		return id;

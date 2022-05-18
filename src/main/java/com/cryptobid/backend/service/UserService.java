@@ -3,6 +3,7 @@ package com.cryptobid.backend.service;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.User;
 import com.cryptobid.backend.repository.UserRepository;
+import com.cryptobid.backend.util.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class UserService {
 
 	public UserService( UserRepository userRepository) {
 		this.userRepository = userRepository;
+
+		if (userRepository.findAll().isEmpty()) {
+			userRepository.save(new User("user","123","John","Doe",10000, UserType.DEFAULT));
+		}
 	}
 
 	/**
