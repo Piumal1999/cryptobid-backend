@@ -12,21 +12,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-				.withUser("admin")
-				.password("{noop}pass") // Spring Security 5 requires specifying the password storage format
-				.roles("ADMIN")
-				.and()
-				.withUser("user")
-				.password("{noop}pass2")
-				.roles();
+		//auth.inMemoryAuthentication()
+		//		.withUser("admin")
+		//		.password("{noop}pass") // Spring Security 5 requires specifying the password storage format
+		//		.roles("ADMIN")
+		//		.and()
+		//		.withUser("user")
+		//		.password("{noop}pass2")
+		//		.roles();
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/api/admin/**").hasRole("ADMIN")
-				.anyRequest().authenticated()
+				//.antMatchers("/api/admin/**").hasRole("ADMIN")
+				//.anyRequest().authenticated()
+				.anyRequest().permitAll()
 				.and()
 				.httpBasic();
 	}
