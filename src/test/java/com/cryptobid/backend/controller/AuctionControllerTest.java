@@ -1,5 +1,6 @@
 package com.cryptobid.backend.controller;
 
+import com.cryptobid.backend.exceptions.BadRequestException;
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
 import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.model.Bid;
@@ -17,8 +18,8 @@ import javax.servlet.http.Cookie;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AuctionController.class)
@@ -31,6 +32,7 @@ public class AuctionControllerTest {
 	private AuctionService auctionService;
 	private final Bid bid = new Bid();
 	private final Integer auctionId = 1;
+	private final Integer bidId = 1;
 
 	@Test
 	void getAllAuctions_withValidData_thenReturns200() throws Exception {
@@ -72,7 +74,7 @@ public class AuctionControllerTest {
 
 	@Test
 	void createBid_withValidData_thenReturns201() throws Exception {
-		mockMvc.perform(post("/api/auctions/{id}/bids")
+		mockMvc.perform(post("/api/auctions/{id}/bids", auctionId)
 				.cookie(new Cookie("userId", "1"))
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(bid)))
@@ -81,7 +83,7 @@ public class AuctionControllerTest {
 
 	@Test
 	void createBid_withValidData_thenReturnsValidResponseBody() throws Exception {
-		mockMvc.perform(post("/api/auctions/{id}/bids")
+		mockMvc.perform(post("/api/auctions/{id}/bids", auctionId)
 				.cookie(new Cookie("userId", "1"))
 				.contentType("application/json")
 				.content(objectMapper.writeValueAsString(bid)))
@@ -95,6 +97,33 @@ public class AuctionControllerTest {
 		assertThat(actualResponse).isEqualTo(expectedResponse);
 	}
 
+	@Test
+	void cancelBidById_withValidData_thenReturns204() throws Exception {
+		mockMvc.perform(delete("/api/auctions/{auctionId}/bids/{bidId}", auctionId, bidId)
+						.cookie(new Cookie("userId", "1")))
+				.andExpect(status().isNoContent());
+	}
 
+	@Test
+	void cancelBidById_withUnavailableData_thenReturns404() throws Exception {
+		doThrow(ResourceNotFoundException.class)
+				.when(auctionService)
+				.cancelBidById(anyInt(), anyInt(), anyInt());
+
+		mockMvc.perform(delete("/api/auctions/{auctionId}/bids/{bidId}", auctionId, bidId)
+						.cookie(new Cookie("userId", "1")))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void cancelBidById_withInvalidData_thenReturns400() throws Exception {
+		doThrow(BadRequestException.class)
+				.when(auctionService)
+				.cancelBidById(anyInt(), anyInt(), anyInt());
+
+		mockMvc.perform(delete("/api/auctions/{auctionId}/bids/{bidId}", auctionId, bidId)
+						.cookie(new Cookie("userId", "1")))
+				.andExpect(status().isBadRequest());
+	}
 
 }
