@@ -1,5 +1,7 @@
 package com.cryptobid.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties("auctions")
 public class Cryptocurrency {
 
 	@Id
