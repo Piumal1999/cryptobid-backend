@@ -24,20 +24,15 @@ public class AuctionControllerTest {
 	private final AuctionService auctionService;
 	private final Integer auctionId = 1;
 
-
-	public AuctionControllerTest(AuctionService auctionService) {
-		this.auctionService = auctionService;
-	}
-
 	@Test
 	void getAllAuctions_withValidData_thenReturns200() throws Exception {
-		mockMvc.perform(get("/api/auctions/"))
+		mockMvc.perform(get("/api/auctions"))
 				.andExpect(status().isOk());
 	}
 
 	@Test
 	void getAuctionById_withValidData_thenReturns200() throws Exception {
-		mockMvc.perform(get("/api/auctions/{id}/bids",auctionId))
+		mockMvc.perform(get("/api/auctions/{id}",auctionId))
 				.andExpect(status().isOk());
 	}
 	@Test
