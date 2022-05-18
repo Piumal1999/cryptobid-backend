@@ -1,6 +1,7 @@
 package com.cryptobid.backend.model;
 
 import com.cryptobid.backend.util.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties("startedAuctions, wonAuctions")
 public class User {
 
 	@Id
