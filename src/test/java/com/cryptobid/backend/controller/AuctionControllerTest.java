@@ -1,6 +1,7 @@
 package com.cryptobid.backend.controller;
 
 import com.cryptobid.backend.exceptions.ResourceNotFoundException;
+import com.cryptobid.backend.model.Auction;
 import com.cryptobid.backend.service.AuctionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ public class AuctionControllerTest {
 	@MockBean
 	private final AuctionService auctionService;
 	private final Integer auctionId = 1;
+	private final Auction auction = new Auction();
 
 	@Test
 	void getAllAuctions_withValidData_thenReturns200() throws Exception {
