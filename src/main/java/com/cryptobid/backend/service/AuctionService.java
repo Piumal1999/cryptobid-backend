@@ -161,7 +161,7 @@ public class AuctionService {
 			throw new ResourceNotFoundException(msg);
 		}
 		if (bid.get().getAuction().getId() != auctionId) {
-			String msg = "Error, Invalid auction id";
+			String msg = "Error, Invalid auction id.";
 			log.error(msg);
 			throw new BadRequestException(msg);
 		}
