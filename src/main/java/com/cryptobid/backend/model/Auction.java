@@ -2,14 +2,7 @@ package com.cryptobid.backend.model;
 
 import com.cryptobid.backend.util.AuctionStatus;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +26,7 @@ public class Auction {
 	@Column(nullable = false)
 	private float initialValue;
 
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private AuctionStatus status;
 
