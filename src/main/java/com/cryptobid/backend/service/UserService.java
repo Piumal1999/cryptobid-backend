@@ -29,7 +29,7 @@ public class UserService {
 	public User getUserById(int id) throws ResourceNotFoundException {
 		Optional<User> user = userRepository.findById(id);
 		if (user.isEmpty()) {
-			String msg = "Error, Auction by id: " + id + " doesn't exist.";
+			String msg = "Error, User by id: " + id + " doesn't exist.";
 			log.error(msg);
 			throw new ResourceNotFoundException(msg);
 		}
