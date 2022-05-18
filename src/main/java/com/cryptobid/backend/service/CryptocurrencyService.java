@@ -7,6 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +22,27 @@ public class CryptocurrencyService {
 
 	public CryptocurrencyService(CryptocurrencyRepository cryptocurrencyRepository) {
 		this.cryptocurrencyRepository = cryptocurrencyRepository;
+		if (cryptocurrencyRepository.findAll().isEmpty()) {
+			loadCryptocurrencies();
+		}
+	}
+
+	public void loadCryptocurrencies() {
+		ClassLoader classLoader = getClass().getClassLoader();
+		try {
+			InputStream inputStream = classLoader.getResourceAsStream("CryptoCurrency.csv");
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+			String line;
+			while ((line = br.readLine()) != null) {
+				String[] values = line.split(",");
+				String symbol = values[0];
+				String name = values[1];
+				int rank = Integer.parseInt(values[2]);
+				cryptocurrencyRepository.save(new Cryptocurrency(symbol, name, rank));
+			}
+		} catch (IOException e) {
+			log.error(e.getMessage());
+		}
 	}
 
 	/**
@@ -34,7 +59,6 @@ public class CryptocurrencyService {
 	 *
 	 * @param id which is the id of the filtering {@link Cryptocurrency}
 	 * @return {@link Cryptocurrency}
-	 *
 	 * @throws ResourceNotFoundException if the requesting {@link Cryptocurrency} doesn't exist
 	 */
 	public Cryptocurrency getCryptocurrencyById(int id) throws ResourceNotFoundException {

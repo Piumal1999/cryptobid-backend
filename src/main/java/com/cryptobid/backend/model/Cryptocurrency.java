@@ -16,7 +16,7 @@ public class Cryptocurrency {
 	@Column(nullable = false)
 	private int id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String symbol;
 
 	@Column(nullable = false)
@@ -28,6 +28,15 @@ public class Cryptocurrency {
 	@OneToMany(mappedBy = "cryptocurrency")
 	private List<Auction> auctions  = new ArrayList<>();
 
+	public Cryptocurrency() {
+
+	}
+
+	public Cryptocurrency(String symbol, String name, int cryptoRank) {
+		this.symbol = symbol;
+		this.name = name;
+		this.cryptoRank = cryptoRank;
+	}
 	public int getId() {
 		return id;
 	}
