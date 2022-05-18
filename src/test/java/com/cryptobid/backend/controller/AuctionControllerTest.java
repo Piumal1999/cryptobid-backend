@@ -22,9 +22,8 @@ public class AuctionControllerTest {
 	@Autowired
 	private ObjectMapper objectMapper;
 	@MockBean
-	private final AuctionService auctionService;
+	private AuctionService auctionService;
 	private final Integer auctionId = 1;
-	private final Auction auction = new Auction();
 
 	@Test
 	void getAllAuctions_withValidData_thenReturns200() throws Exception {
