@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.servlet.http.Cookie;
+
 import static org.mockito.Mockito.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -45,6 +47,24 @@ public class AuctionControllerTest {
 		mockMvc.perform(get("/api/auctions/{id}",auctionId))
 				.andExpect(status().isNotFound());
 	}
+
+	@Test
+	void getMyBidsByAuctionId_withValidData_thenReturns200() throws Exception {
+		mockMvc.perform(get("/api/auctions/{id}/bids",auctionId)
+		.cookie(new Cookie("userId","1")))
+				.andExpect(status().isOk());
+	}
+	@Test
+	void getMyBidsByAuctionId_withUnavailableData_thenReturns404() throws Exception {
+		doThrow(ResourceNotFoundException.class)
+				.when(auctionService)
+				.getMyBidsByAuctionId(anyInt(),anyInt());
+
+		mockMvc.perform(get("/api/auctions/{id}/bids",auctionId)
+		.cookie(new Cookie("userId","1")))
+				.andExpect(status().isNotFound());
+	}
+
 
 
 
