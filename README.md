@@ -37,6 +37,13 @@ You can directly run the application using the following command
 mvn spring-boot:run
 ```
 
+## Application Details
+
+* The `Cryptocurrencies.csv` file with pre defined list of cryptocurrencies is added to the `/resources` directory. The values will be loaded to the database automatically at the first run.
+* When creating auctions, Coingecko API was used to get the realtime value of the respective cryptocurrency to set as the initial value.
+* Unit tests are written using JUnit
+
+
 ## API Endpoints
 
 ### Admin Endpoints
